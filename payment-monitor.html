@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>BILLAN TECH HOUSE PLC — Payment Review</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 antialiased">
+  <header class="sticky top-0 z-30 border-b border-slate-800 bg-slate-900/95 backdrop-blur"><div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4"><div><h1 class="font-bold">BILLAN TECH HOUSE PLC</h1><p class="text-xs text-slate-400">Payment review — admin only</p></div><div class="flex gap-2"><a href="index1.html" class="rounded-lg border border-slate-700 px-3 py-2 text-xs hover:bg-slate-800">Payment page</a><button id="refreshButton" class="hidden rounded-lg border border-slate-700 px-3 py-2 text-xs hover:bg-slate-800">Refresh</button><button id="signOutButton" class="hidden rounded-lg border border-slate-700 px-3 py-2 text-xs hover:bg-slate-800">Sign out</button></div></div></header>
+  <main class="mx-auto max-w-7xl space-y-6 px-4 py-8">
+    <section id="loginPanel" class="mx-auto max-w-md rounded-2xl border border-slate-800 bg-slate-900 p-6"><h2 class="text-xl font-bold">Admin sign in</h2><p class="mt-1 text-sm text-slate-400">Use an authorized Supabase Auth account.</p><form id="loginForm" class="mt-5 space-y-4"><div><label for="emailInput" class="mb-1 block text-xs">Email</label><input id="emailInput" type="email" autocomplete="username" required class="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2"></div><div><label for="passwordInput" class="mb-1 block text-xs">Password</label><input id="passwordInput" type="password" autocomplete="current-password" required class="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2"></div><button id="loginButton" class="w-full rounded-lg bg-blue-600 px-4 py-2.5 font-bold">Sign in</button><p id="loginMessage" class="min-h-5 text-sm" role="status" aria-live="polite"></p></form></section>
+    <section id="dashboard" class="hidden space-y-5"><div class="flex flex-wrap items-end justify-between gap-3"><div><h2 class="text-2xl font-black">Payment audit dashboard</h2><p id="signedInLabel" class="text-sm text-slate-400"></p></div><p id="dashboardMessage" class="text-sm" role="status" aria-live="polite"></p></div>
+      <div class="grid gap-4 sm:grid-cols-3"><article class="rounded-xl border border-slate-800 bg-slate-900 p-4"><p class="text-xs text-slate-400">Submissions loaded</p><p id="totalCount" class="text-2xl font-black">0</p></article><article class="rounded-xl border border-amber-500/20 bg-slate-900 p-4"><p class="text-xs text-amber-400">Pending review</p><p id="pendingCount" class="text-2xl font-black">0</p></article><article class="rounded-xl border border-emerald-500/20 bg-slate-900 p-4"><p class="text-xs text-emerald-400">Verified revenue</p><p id="verifiedAmount" class="text-2xl font-black">0 RWF</p></article></div>
+      <div class="flex flex-col gap-3 rounded-xl border border-slate-800 bg-slate-900 p-4 sm:flex-row"><input id="filterInput" type="search" placeholder="Search invoice or transaction ID" class="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm"><select id="statusFilter" class="rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm"><option value="all">All statuses</option><option value="pending">Pending</option><option value="verified">Verified</option><option value="rejected">Rejected</option></select></div>
+      <div class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900"><div class="overflow-x-auto"><table class="w-full min-w-[950px] text-left text-sm"><thead class="bg-slate-950 text-xs uppercase text-slate-400"><tr><th class="p-3">Submitted</th><th class="p-3">Invoice</th><th class="p-3">Transaction ID</th><th class="p-3">Amount</th><th class="p-3">Access</th><th class="p-3">Receipt</th><th class="p-3">Status</th><th class="p-3 text-right">Actions</th></tr></thead><tbody id="recordsBody" class="divide-y divide-slate-800"><tr><td colspan="8" class="p-8 text-center text-slate-400">Sign in to load submissions.</td></tr></tbody></table></div></div>
+    </section>
+  </main>
+  <div id="receiptModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true"><div class="w-full max-w-3xl rounded-xl border border-slate-700 bg-slate-900 p-4"><div class="mb-3 flex justify-between"><h2 id="receiptTitle" class="font-bold">Receipt</h2><button id="closeReceipt" aria-label="Close">✕</button></div><img id="receiptImage" alt="Payment receipt screenshot" class="mx-auto max-h-[75vh] max-w-full object-contain"></div></div>
+  <script>
+    (() => {
+      const sb = window.supabase.createClient("https://jbqbelfsdrsjzqcbyzgj.supabase.co", "sb_publishable_7cVIOgKw1dvD1kShDSZ0qw_88KQkobO");
+      const $ = id => document.getElementById(id);
+      let records = [];
+      const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;", "'":"&#39;"}[c]));
+      function message(id, text, error = false) { $(id).textContent = text; $(id).className = `text-sm ${error ? "text-rose-400" : "text-emerald-400"}`; }
+      async function authorized(user) {
+        const { data, error } = await sb.from("admin_users").select("user_id").eq("user_id", user.id).maybeSingle();
+        if (error) throw error;
+        return !!data;
+      }
+      async function enter(user) {
+        try {
+          if (!(await authorized(user))) { await sb.auth.signOut(); message("loginMessage", "This account is not authorized as an admin.", true); return; }
+          $("loginPanel").classList.add("hidden"); $("dashboard").classList.remove("hidden");
+          $("refreshButton").classList.remove("hidden"); $("signOutButton").classList.remove("hidden");
+          $("signedInLabel").textContent = `Signed in as ${user.email || "admin"}`;
+          await load();
+        } catch (error) { await sb.auth.signOut(); message("loginMessage", `Admin access check failed: ${error.message}`, true); }
+      }
+      async function load() {
+        const body = $("recordsBody");
+        body.innerHTML = '<tr><td colspan="8" class="p-8 text-center text-slate-400">Loading…</td></tr>';
+        const { data, error } = await sb.from("payment_submissions").select("id, submitted_at, invoice_code, transaction_id, amount_rwf, allocated_days, screenshot_path, status").order("submitted_at", { ascending: false }).limit(500);
+        if (error) { body.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-rose-400">${esc(error.message)}<br><span class="text-xs text-slate-400">Verify admin RLS policies and schema.</span></td></tr>`; return; }
+        records = data || [];
+        const verified = records.filter(r => r.status === "verified");
+        $("totalCount").textContent = records.length;
+        $("pendingCount").textContent = records.filter(r => r.status === "pending").length;
+        $("verifiedAmount").textContent = `${verified.reduce((s, r) => s + (Number(r.amount_rwf) || 0), 0).toLocaleString()} RWF`;
+        render();
+      }
+      function render() {
+        const query = $("filterInput").value.trim().toLowerCase(), status = $("statusFilter").value;
+        const rows = records.filter(r => (`${r.invoice_code || ""} ${r.transaction_id || ""}`).toLowerCase().includes(query) && (status === "all" || r.status === status));
+        if (!rows.length) { $("recordsBody").innerHTML = '<tr><td colspan="8" class="p-8 text-center text-slate-400">No matching submissions.</td></tr>'; return; }
+        $("recordsBody").innerHTML = rows.map(r => `<tr>
+          <td class="whitespace-nowrap p-3 text-slate-400">${esc(r.submitted_at ? new Date(r.submitted_at).toLocaleString() : "—")}</td><td class="p-3 font-mono text-amber-300">${esc(r.invoice_code)}</td><td class="p-3 font-mono">${esc(r.transaction_id)}</td><td class="p-3 text-emerald-300">${(Number(r.amount_rwf)||0).toLocaleString()} RWF</td><td class="p-3">${r.allocated_days == null ? "—" : `${esc(r.allocated_days)} days`}</td>
+          <td class="p-3">${r.screenshot_path ? `<button data-action="receipt" data-id="${esc(r.id)}" class="text-blue-300 underline">View image</button>` : "—"}</td><td class="p-3"><span class="rounded-full border border-slate-700 px-2 py-1 text-xs">${esc(r.status)}</span></td><td class="space-x-1 p-3 text-right">${r.status === "pending" ? `<button data-action="verified" data-id="${esc(r.id)}" class="rounded bg-emerald-700 px-2 py-1">Approve</button><button data-action="rejected" data-id="${esc(r.id)}" class="rounded bg-rose-800 px-2 py-1">Reject</button>` : "Reviewed"}</td></tr>`).join("");
+      }
+      async function receipt(row) {
+        const { data, error } = await sb.storage.from("payment-receipts").createSignedUrl(row.screenshot_path, 300);
+        if (error) return message("dashboardMessage", `Could not open receipt: ${error.message}`, true);
+        $("receiptTitle").textContent = `Receipt — ${row.invoice_code}`; $("receiptImage").src = data.signedUrl;
+        $("receiptModal").classList.remove("hidden"); $("receiptModal").classList.add("flex");
+      }
+      async function changeStatus(row, status) {
+        if (row.status !== "pending" || !confirm(`${status === "verified" ? "Approve" : "Reject"} ${row.invoice_code}?`)) return;
+        const { data, error } = await sb.from("payment_submissions").update({ status }).eq("id", row.id).eq("status", "pending").select("id");
+        if (error) return message("dashboardMessage", error.message, true);
+        if (!data?.length) return message("dashboardMessage", "No row changed. Refresh and confirm its current status.", true);
+        message("dashboardMessage", `Invoice ${row.invoice_code} marked ${status}.`); await load();
+      }
+      $("loginForm").addEventListener("submit", async e => { e.preventDefault(); const btn = $("loginButton"); btn.disabled = true; const { data, error } = await sb.auth.signInWithPassword({ email: $("emailInput").value.trim(), password: $("passwordInput").value }); btn.disabled = false; if (error) return message("loginMessage", error.message, true); await enter(data.user); });
+      $("refreshButton").addEventListener("click", load);
+      $("signOutButton").addEventListener("click", async () => { await sb.auth.signOut(); location.reload(); });
+      $("filterInput").addEventListener("input", render); $("statusFilter").addEventListener("change", render);
+      $("recordsBody").addEventListener("click", async e => { const btn = e.target.closest("button[data-action]"); if (!btn) return; const row = records.find(r => String(r.id) === btn.dataset.id); if (!row) return; if (btn.dataset.action === "receipt") await receipt(row); else await changeStatus(row, btn.dataset.action); });
+      $("closeReceipt").addEventListener("click", () => { $("receiptModal").classList.add("hidden"); $("receiptModal").classList.remove("flex"); $("receiptImage").removeAttribute("src"); });
+      $("receiptModal").addEventListener("click", e => { if (e.target === $("receiptModal")) $("closeReceipt").click(); });
+      sb.auth.getSession().then(({ data, error }) => { if (error) return message("loginMessage", error.message, true); if (data.session?.user) enter(data.session.user); });
+      sb.auth.onAuthStateChange((event, session) => { if ((event === "SIGNED_OUT" || !session) && !$ ("loginPanel").classList.contains("hidden")) return; if (event === "SIGNED_OUT" || !session) location.reload(); });
+    })();
+  </script>
+</body>
+</html>
