@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Terms of Service · LibraryOS</title>
+<meta name="description" content="The rules for using LibraryOS, the library management system by Billan Tec House Company: who may use it, what it must not be used for, your data, payments and our responsibilities.">
+<meta name="theme-color" content="#F97316">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230B1B3A'/%3E%3Cpath d='M12 24q10-5 20 2 10-7 20-2v22q-10-5-20 2-10-7-20-2z' fill='%23F97316'/%3E%3Cpath d='M32 26v22' stroke='%230B1B3A' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,800;9..144,900&display=swap" rel="stylesheet">
+<script>
+/* same theme as the LibraryOS home page: light · dark (black) · darkblue */
+(function(){var ok=['light','dark','darkblue'],t=null;
+try{t=localStorage.getItem('libraryos-theme-v2');}catch(e){}
+if(ok.indexOf(t)<0){t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'darkblue':'light';}
+document.documentElement.setAttribute('data-theme',t);})();
+</script>
+<style>
+/* ═════════ COLOURS: exactly the LibraryOS home page tokens ═════════ */
+:root{
+  --orange:#F97316; --orange-2:#FB923C; --orange-3:#FDBA74; --gold:#FBBF24;
+  --navy:#0B1B3A; --teal:#14B8A6; --rose:#F43F5E;
+  --bg:#FFF8F1; --bg-2:#FFFFFF; --bg-3:#FFEFE0;
+  --ink:#14213D; --muted:#5B6478; --line:rgba(20,33,61,.11);
+  --card:#FFFFFF; --card-shadow:0 10px 30px -12px rgba(20,33,61,.22);
+  --nav-bg:rgba(255,248,241,.82);
+  --glow:rgba(249,115,22,.22);
+  --footer:#0B1B3A;
+  --ease:cubic-bezier(.22,.8,.24,1);
+  color-scheme:light;
+}
+[data-theme="dark"]{
+  --bg:#050506; --bg-2:#0C0C0F; --bg-3:#151519;
+  --ink:#F4F4F5; --muted:#A1A1AA; --line:rgba(255,255,255,.1);
+  --card:#101014; --card-shadow:0 14px 34px -14px rgba(0,0,0,.9);
+  --nav-bg:rgba(5,5,6,.86); --glow:rgba(249,115,22,.22); --footer:#000;
+  color-scheme:dark;
+}
+[data-theme="darkblue"]{
+  --bg:#0A1226; --bg-2:#0F1A33; --bg-3:#13203F;
+  --ink:#F3F5FB; --muted:#9DA9C2; --line:rgba(255,255,255,.1);
+  --card:#12203F; --card-shadow:0 14px 34px -14px rgba(0,0,0,.7);
+  --nav-bg:rgba(10,18,38,.82); --glow:rgba(249,115,22,.28); --footer:#0B1B3A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;transition:background .4s,color .4s}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:8px}
+.orbs{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.orbs i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55}
+.orbs i:nth-child(1){width:46vmax;height:46vmax;background:var(--glow);top:-14vmax;right:-10vmax}
+.orbs i:nth-child(2){width:34vmax;height:34vmax;background:rgba(251,191,36,.15);bottom:-12vmax;left:-10vmax}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--nav-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:2px solid var(--gold)}
+.top-in{width:min(1100px,100% - 2rem);margin-inline:auto;height:64px;display:flex;align-items:center;gap:1rem}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.3rem;letter-spacing:-.02em}
+.brand svg{width:40px;height:34px}
+.brand b{color:var(--orange)}
+.back{margin-left:auto;font-weight:600;font-size:.9rem;padding:.5rem .9rem;border-radius:99px;transition:background .2s}
+.back:hover{background:rgba(249,115,22,.12)}
+.themes{display:flex;gap:.35rem;padding:.3rem;border-radius:99px;background:var(--bg-3)}
+.themes button{width:28px;height:28px;border-radius:50%;border:2px solid transparent;transition:transform .2s,border-color .2s}
+.themes button:hover{transform:scale(1.12)}
+.themes button[aria-pressed="true"]{border-color:var(--orange)}
+.themes .t-light{background:linear-gradient(135deg,#FFF8F1 50%,#F97316 50%)}
+.themes .t-dark{background:linear-gradient(135deg,#050506 50%,#F97316 50%)}
+.themes .t-blue{background:linear-gradient(135deg,#1E3A8A 50%,#F97316 50%)}
+
+/* the sheet (the rounded card from the wireframe) */
+.shell{flex:1;display:grid;place-items:center;padding:clamp(1rem,3vw,2.2rem) 1rem}
+.sheet{width:min(820px,100%);height:min(calc(100vh - 64px - 3rem),880px);min-height:520px;display:flex;flex-direction:column;background:var(--card);border:1.5px solid var(--line);border-radius:36px;box-shadow:var(--card-shadow);overflow:hidden}
+.sheet-head{position:relative;text-align:center;padding:1.3rem 1.5rem 1.1rem;border-bottom:2px solid var(--line);flex:none}
+.sheet-head h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(1.4rem,3.4vw,2rem);letter-spacing:.02em;text-transform:uppercase;line-height:1.1}
+.sheet-head h1 span{color:var(--orange)}
+.ver{color:var(--muted);font-size:.8rem;font-weight:600;margin-top:.35rem}
+.progress{position:absolute;left:0;right:0;bottom:-2px;height:3px;background:transparent}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--gold));transition:width .15s linear}
+
+.sheet-body{flex:1;overflow-y:auto;padding:1.4rem clamp(1.1rem,3.5vw,2.2rem);scroll-behavior:smooth;overscroll-behavior:contain}
+.sheet-body:focus-visible{outline-offset:-4px}
+.intro{background:var(--bg-3);border:1px solid var(--line);border-left:5px solid var(--orange);border-radius:18px;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.intro h2{font-family:'Fraunces',serif;font-size:1.1rem;margin-bottom:.4rem}
+.intro ul{padding-left:1.1rem;color:var(--muted);font-size:.94rem}
+.intro li{margin:.15rem 0}
+.toc{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.6rem}
+.toc a{font-size:.78rem;font-weight:700;padding:.32rem .75rem;border-radius:99px;background:var(--bg-3);border:1px solid var(--line);transition:all .2s}
+.toc a:hover{border-color:var(--orange);color:var(--orange)}
+.sec{margin-bottom:1.6rem;scroll-margin-top:.5rem}
+.sec h2{display:flex;gap:.7rem;align-items:center;font-family:'Fraunces',serif;font-size:1.2rem;line-height:1.25;margin-bottom:.55rem}
+.sec h2 .n{flex:none;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--orange);color:#fff;font-size:.85rem;font-weight:800;font-family:'DM Sans',sans-serif}
+.sec p,.sec li{color:var(--muted);font-size:.97rem}
+.sec p{margin-bottom:.6rem}
+.sec p strong,.sec li strong{color:var(--ink)}
+.sec ul{padding-left:1.25rem;display:grid;gap:.3rem;margin-bottom:.6rem}
+.sec li::marker{color:var(--orange)}
+.limits{background:var(--bg-3);border:1.5px solid var(--orange);border-radius:20px;padding:1rem 1.2rem 1.1rem;margin-top:.4rem}
+.limits h2{margin-bottom:.4rem}
+.limits li::marker{content:"✕  ";color:var(--rose);font-weight:800}
+.end{text-align:center;color:var(--muted);font-size:.85rem;padding:.6rem 0 .2rem}
+
+/* agree bar (the check-box row from the wireframe) */
+.agree{flex:none;border-top:2px solid var(--line);padding:.9rem clamp(1.1rem,3.5vw,2.2rem);display:flex;flex-wrap:wrap;align-items:center;gap:.8rem 1.2rem;background:var(--card)}
+.agree label{display:flex;align-items:center;gap:.75rem;font-weight:700;font-size:.92rem;text-transform:uppercase;letter-spacing:.02em;cursor:pointer;flex:1 1 280px}
+.agree input{appearance:none;-webkit-appearance:none;width:32px;height:32px;flex:none;border:3px solid var(--ink);border-radius:8px;display:grid;place-items:center;cursor:pointer;background:transparent;transition:all .2s}
+.agree input::after{content:"✓";font-weight:900;color:#fff;font-size:1.1rem;transform:scale(0);transition:transform .2s var(--ease)}
+.agree input:checked{background:var(--orange);border-color:var(--orange)}
+.agree input:checked::after{transform:scale(1)}
+.agree input:disabled{opacity:.4;cursor:not-allowed}
+.agree label.off{cursor:not-allowed;opacity:.65}
+.hint{flex-basis:100%;font-size:.78rem;color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0}
+.hint.ok{color:var(--teal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.8rem 1.4rem;border-radius:14px;font-weight:700;font-size:.95rem;background:linear-gradient(135deg,var(--orange),#EA580C);color:#fff;box-shadow:0 12px 24px -12px rgba(234,88,12,.7);transition:transform .2s,opacity .2s}
+.btn:hover:not(:disabled){transform:translateY(-2px)}
+.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.sheet-foot{flex:none;background:var(--footer);color:#fff;text-align:center;padding:.85rem 1rem calc(.85rem + env(safe-area-inset-bottom));font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.82rem;border-top:3px solid var(--orange)}
+.sheet-foot span{color:var(--orange)}
+.tools{width:min(820px,100%);display:flex;justify-content:flex-end;margin:.6rem auto 0;font-size:.8rem}
+.tools button{color:var(--muted);font-weight:600;text-decoration:underline}
+
+@media (max-width:620px){
+  .top-in{height:58px;gap:.5rem}.brand{font-size:1.1rem}.brand svg{width:34px}
+  .back span{display:none}
+  .sheet{border-radius:26px;height:calc(100vh - 58px - 2rem)}
+  .agree label{font-size:.8rem}
+  .btn{width:100%}
+}
+@media print{
+  .top,.agree,.tools,.orbs{display:none}
+  body{background:#fff;color:#000}
+  .sheet{height:auto;box-shadow:none;border:0}.sheet-body{overflow:visible}
+  .sheet-foot{background:none;color:#000}
+}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><i></i><i></i></div>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="index.html" aria-label="LibraryOS home">
+      <svg viewBox="0 0 120 100" aria-hidden="true"><path d="M4 70 Q60 106 116 66" fill="none" stroke="#F97316" stroke-width="4" stroke-linecap="round"/><path d="M6 40 Q33 30 60 43 Q87 30 114 40 L114 82 Q87 72 60 85 Q33 72 6 82 Z" fill="#0B1B3A"/><path d="M11 42 Q34 34 60 46 L60 80 Q34 69 11 77 Z" fill="#fff"/><path d="M60 46 Q86 34 109 42 L109 77 Q86 69 60 80 Z" fill="#fff"/><path d="M68 54 Q86 49 102 52M68 62 Q86 57 102 60M68 70 Q80 66 92 68" fill="none" stroke="#F97316" stroke-width="2.4" stroke-linecap="round"/><path d="M10 22 L34 12 L58 22 L34 32 Z" fill="#0B1B3A" stroke="#FBBF24" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      <span>Library<b>OS</b></span>
+    </a>
+    <a class="back" href="index.html">← <span>Back to LibraryOS</span></a>
+    <div class="themes" role="group" aria-label="Theme">
+      <button class="t-light" type="button" data-t="light" aria-label="Light" title="Light"></button>
+      <button class="t-dark" type="button" data-t="dark" aria-label="Dark, black" title="Dark · Black"></button>
+      <button class="t-blue" type="button" data-t="darkblue" aria-label="Dark, blue" title="Dark · Blue"></button>
+    </div>
+  </div>
+</header>
+
+<main class="shell">
+  <article class="sheet" aria-labelledby="ttl">
+    <header class="sheet-head">
+      <h1 id="ttl">Terms of <span>Service</span></h1>
+      <p class="ver">LibraryOS by Billan Tec House Company · Version 1.0 · Effective 18 November 2026</p>
+      <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+    </header>
+
+    <div class="sheet-body" id="body" tabindex="0" aria-label="Terms of Service text, scroll to read">
+
+      <div class="intro">
+        <h2>The short version</h2>
+        <ul>
+          <li>LibraryOS is a tool to run a library. Use it only for that, and only for your own organisation.</li>
+          <li>Your library records belong to you. We never sell them and we never use them for advertising.</li>
+          <li>You are responsible for your accounts, your passwords and the accuracy of what you enter.</li>
+          <li>Some things are never allowed (section 5), and we may suspend an account that breaks the rules.</li>
+          <li>Please read the full terms below. You must reach the end before you can agree.</li>
+        </ul>
+      </div>
+
+      <nav class="toc" aria-label="Sections">
+        <a href="#s1">1 About</a><a href="#s2">2 Who may use it</a><a href="#s3">3 Registering</a><a href="#s4">4 Accounts</a><a href="#s5">5 Limits</a><a href="#s6">6 Your data</a><a href="#s7">7 Privacy</a><a href="#s8">8 Imports &amp; AI</a><a href="#s9">9 Payments</a><a href="#s10">10 Messages &amp; reviews</a><a href="#s11">11 Availability</a><a href="#s12">12 Responsibility</a><a href="#s13">13 Suspension</a><a href="#s14">14 Ownership</a><a href="#s15">15 Changes</a><a href="#s16">16 Law &amp; contact</a>
+      </nav>
+
+      <section class="sec" id="s1">
+        <h2><span class="n">1</span>About these terms</h2>
+        <p>LibraryOS is a web-based library management system made and run by <strong>Billan Tec House Company</strong> (“we”, “us”). These terms are the agreement between us and anyone who registers an organisation on LibraryOS or signs in to it (“you”).</p>
+        <p>By registering, signing in or using LibraryOS you accept these terms. If you act for an organisation (a school, college or library), you confirm that you have the authority to accept them on its behalf.</p>
+      </section>
+
+      <section class="sec" id="s2">
+        <h2><span class="n">2</span>Who may use LibraryOS</h2>
+        <ul>
+          <li><strong>Organisations</strong> such as schools, colleges and community libraries that we have approved. Each organisation gets its own separate workspace with its own school code.</li>
+          <li><strong>Librarians</strong> can manage books, students, issuing, returns and reports for their own organisation. <strong>Viewers</strong> can only look at information, as the organisation allows.</li>
+          <li><strong>Platform administrators</strong> at Billan Tec House Company approve registrations, verify payments and keep the system healthy.</li>
+          <li>Only people the organisation has authorised may hold an account. The organisation answers for everyone it gives access to.</li>
+        </ul>
+      </section>
+
+      <section class="sec" id="s3">
+        <h2><span class="n">3</span>Registering an organisation</h2>
+        <ul>
+          <li>Registration needs true and complete information: the organisation’s name, location, head teacher or director, contact details and, where requested, its establishment letter.</li>
+          <li>We review every request. We may approve it, ask for more proof, or reject it. We may also refuse organisations that cannot show they are real.</li>
+          <li>One approved organisation has one workspace. A workspace may not be shared with, or used for, another organisation.</li>
+        </ul>
+      </section>
+
+      <section class="sec" id="s4">
+        <h2><span class="n">4</span>Accounts and passwords</h2>
+        <ul>
+          <li>Keep your sign-in details private. Do not share a password and do not let someone else sign in as you.</li>
+          <li>Everything done through an account is treated as done by its owner. Tell us at once if you think an account was misused.</li>
+          <li>The system records important actions (for example logins, issuing and returning books, imports and deletions) in activity logs, so the organisation can see who did what.</li>
+          <li>We may reset a password or lock an account to protect the system.</li>
+        </ul>
+      </section>
+
+      <section class="sec limits" id="s5">
+        <h2><span class="n">5</span>Limits: what LibraryOS must never be used for</h2>
+        <p>These are the boundaries of the system. Going beyond them is a breach of these terms.</p>
+        <ul>
+          <li><strong>Other people’s data.</strong> Do not try to see, change or delete the records of another organisation, or to get around the separation between workspaces.</li>
+          <li><strong>Break-ins and attacks.</strong> No guessing passwords, probing for weaknesses, scraping, overloading the service, reverse-engineering it, or planting harmful files or code.</li>
+          <li><strong>False identities and false records.</strong> No fake accounts, fake organisations, invented students or forged payment proof or transaction numbers.</li>
+          <li><strong>Misusing student information.</strong> Student names, classes and borrowing records may be used for running the library only: not for advertising, selling, profiling, public shaming or any unrelated purpose.</li>
+          <li><strong>Unlawful or harmful content.</strong> Nothing illegal, abusive, hateful or threatening in any field, message, review or file.</li>
+          <li><strong>Reselling or renting out</strong> access to LibraryOS, or presenting it as your own product.</li>
+          <li><strong>Avoiding the rules.</strong> No bypassing payment checks, approvals, role limits or suspensions, and no creating a new account to return after a suspension.</li>
+          <li><strong>Using it as something it is not.</strong> LibraryOS is a library record system. It is not a payment processor, a bank, a backup service for other data, or a place to store unrelated files.</li>
+        </ul>
+      </section>
+
+      <section class="sec" id="s6">
+        <h2><span class="n">6</span>Your data and who owns it</h2>
+        <ul>
+          <li>The books, students, lending records and other information an organisation enters <strong>belong to that organisation</strong>.</li>
+          <li>You give us the limited permission we need to store, process and show that information so that LibraryOS works for you. We use it for nothing else.</li>
+          <li>You are responsible for the accuracy of your data and for having the right to enter it.</li>
+          <li>Please export your records regularly so you always hold your own copy.</li>
+        </ul>
+      </section>
+
+      <section class="sec" id="s7">
+        <h2><span class="n">7</span>Personal data and privacy</h2>
+        <p>LibraryOS holds personal information, including staff names and emails, student names and classes, lending records, activity logs, and the names and emails people send us through the contact form or reviews.</p>
+        <ul>
+          <li>For student and member records, the <strong>organisation decides how the data is used</strong> and must have the right to hold it, including any permission needed for students who are under 18. We handle it only on the organisation’s behalf.</li>
+          <li>Access is limited by role. Our administrators look at an organisation’s data only when needed for approvals, support, payment checks or security, and such actions are logged.</li>
+          <li>We do not sell personal data and we do not show advertising.</li>
+          <li>We use reasonable technical and organisational measures to protect data. No online system is perfectly safe, so if we learn of a breach that affects you we will tell the organisation without unreasonable delay.</li>
+          <li>You may ask us to correct, export or delete your organisation’s data. We keep data while a workspace is active and for a short period afterwards (section 13).</li>
+        </ul>
+      </section>
+
+      <section class="sec" id="s8">
+        <h2><span class="n">8</span>Import tools and AI file detection</h2>
+        <ul>
+          <li>Bulk import and the AI file-detection tool help you move lists of books or students into LibraryOS and match their columns automatically.</li>
+          <li>The tools can make mistakes. <strong>Always check the preview</strong> before you confirm an import. Imports are recorded in an import log.</li>
+          <li>Upload only files you are allowed to use. Do not upload files with harmful content or with data that does not belong in a library system.</li>
+        </ul>
+      </section>
+
+      <section class="sec" id="s9">
+        <h2><span class="n">9</span>Fees and payments</h2>
+        <ul>
+          <li>Fees are in Rwandan francs (RWF) and are paid by MTN Mobile Money or bank transfer. We tell you the price before you pay.</li>
+          <li>Each payment is checked <strong>by hand</strong> using the transaction ID and the proof you send. Access is not activated until a payment is verified and approved.</li>
+          <li>Every transaction ID can be used once. Payments with false, copied or reused details are rejected.</li>
+          <li>An approved payment normally gives one (1) year of access from the day it is approved. Before access ends we will remind you so you can renew.</li>
+          <li>If a payment is wrongly taken or sent twice, contact us and we will look into it fairly. Otherwise fees already approved are not refundable once the access period has started.</li>
+        </ul>
+      </section>
+
+      <section class="sec" id="s10">
+        <h2><span class="n">10</span>Announcements, messages and reviews</h2>
+        <ul>
+          <li><strong>Contact messages</strong> are read only by our administrators and used only to answer you. Your email address is never shown publicly.</li>
+          <li><strong>Reviews</strong> are checked before they appear. By sending one you allow us to show your name, role, star rating and comment, and our reply, on the home page. Your email stays private.</li>
+          <li>We may refuse, hide or remove messages and reviews that are abusive, false, spam, or that reveal other people’s personal details.</li>
+          <li>Do not put passwords, ID numbers or other people’s private information in a message or a review.</li>
+        </ul>
+      </section>
+
+      <section class="sec" id="s11">
+        <h2><span class="n">11</span>Availability, updates and backups</h2>
+        <ul>
+          <li>We work to keep LibraryOS running, but we cannot promise it will never be interrupted. We will announce planned maintenance when we can.</li>
+          <li>We may improve, change or remove features. Important changes are posted in the Announcements section.</li>
+          <li>You should not rely on LibraryOS as your only copy of important records. Keep your own exports.</li>
+        </ul>
+      </section>
+
+      <section class="sec" id="s12">
+        <h2><span class="n">12</span>What we are and are not responsible for</h2>
+        <ul>
+          <li>LibraryOS is a tool that supports your library. <strong>Decisions stay with the organisation</strong>: who may borrow, fees for lost or damaged books, discipline, and how records are used.</li>
+          <li>We are not responsible for losses that come from wrong data entered by you, shared passwords, misuse of an account, or checking imports carelessly.</li>
+          <li>We are not responsible for problems outside our control, such as power or internet failures, mobile-money or bank delays, or the failure of services we depend on.</li>
+          <li>As far as the law allows, we are not liable for indirect or consequential losses, and our total liability for any claim is limited to the fees you paid for the current access period. Nothing in these terms removes rights that the law does not allow to be removed.</li>
+        </ul>
+      </section>
+
+      <section class="sec" id="s13">
+        <h2><span class="n">13</span>Suspension and ending of use</h2>
+        <ul>
+          <li>We may suspend or end an account or workspace that breaks these terms, especially section 5, that uses false information, or that puts the system or other organisations at risk. Where it is reasonable we will warn you first.</li>
+          <li>You may stop using LibraryOS at any time. Ask us if you want your organisation closed.</li>
+          <li>After a workspace ends we keep its data for 30 days so you can export it. After that we delete it, except for what the law requires us to keep and our own security and payment records.</li>
+        </ul>
+      </section>
+
+      <section class="sec" id="s14">
+        <h2><span class="n">14</span>Ownership of LibraryOS</h2>
+        <p>The LibraryOS software, name, logo, design and documents belong to Billan Tec House Company. You receive a limited, non-transferable right to use the system for your own organisation while you follow these terms. You do not receive ownership of any part of it.</p>
+      </section>
+
+      <section class="sec" id="s15">
+        <h2><span class="n">15</span>Changes to these terms</h2>
+        <p>We may update these terms as LibraryOS grows. The newest version is always on this page with its version number and date. For important changes we will post a notice in Announcements, and we may ask you to agree again. Using LibraryOS after a change means you accept the new version.</p>
+      </section>
+
+      <section class="sec" id="s16">
+        <h2><span class="n">16</span>Law and contact</h2>
+        <p>These terms are governed by the laws of the Republic of Rwanda. We prefer to settle any disagreement by talking first.</p>
+        <p>Questions about these terms? Use the contact form on the <a href="index.html#contact" style="color:var(--orange);font-weight:700">LibraryOS home page</a> and our team will answer you.</p>
+      </section>
+
+      <p class="end">— End of the Terms of Service —</p>
+    </div>
+
+    <div class="agree">
+      <label id="agreeLabel" class="off" for="agree">
+        <input type="checkbox" id="agree" disabled>
+        <span>I agree with these Terms of Service</span>
+      </label>
+      <button class="btn" id="go" type="button" disabled>Continue →</button>
+      <p class="hint" id="hint">Scroll to the end of the terms to enable the box.</p>
+    </div>
+
+    <footer class="sheet-foot">Powered by <span>Billan Tec House</span> Company</footer>
+  </article>
+  <div class="tools"><button type="button" id="print">Print / save as PDF</button></div>
+</main>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const VERSION = '1.0', KEY = 'libraryos-tos';
+  const get = k => { try{ return localStorage.getItem(k); }catch(e){ return null; } };
+  const set = (k,v) => { try{ localStorage.setItem(k,v); }catch(e){} };
+  const del = k => { try{ localStorage.removeItem(k); }catch(e){} };
+
+  /* ── themes (same three as the home page, same saved choice) ── */
+  const COLORS = { light:'#F97316', dark:'#050506', darkblue:'#0A1226' };
+  function applyTheme(t, save){
+    if(!COLORS[t]) t = 'light';
+    document.documentElement.setAttribute('data-theme', t);
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', COLORS[t]);
+    document.querySelectorAll('.themes button').forEach(b => b.setAttribute('aria-pressed', b.dataset.t === t));
+    if(save) set('libraryos-theme-v2', t);
+  }
+  document.querySelectorAll('.themes button').forEach(b => b.addEventListener('click', () => applyTheme(b.dataset.t, true)));
+  applyTheme(document.documentElement.getAttribute('data-theme'), false);
+
+  /* ── where "Continue" goes: ?next=monitor.html#register (only files of this site are accepted) ── */
+  const q = new URLSearchParams(location.search).get('next') || '';
+  const NEXT = /^[A-Za-z0-9._-]+\.html(#[A-Za-z0-9_-]+)?$/.test(q) ? q : 'monitor.html#register';
+  $('#go').textContent = /register/.test(NEXT) ? 'Continue to registration →' : 'Continue →';
+
+  /* ── reading progress + agreement ── */
+  const body = $('#body'), box = $('#agree'), label = $('#agreeLabel'), go = $('#go'), hint = $('#hint'), prog = $('#prog');
+  let reachedEnd = false;
+  let accepted = null;
+  try{ const a = JSON.parse(get(KEY) || 'null'); if(a && a.v === VERSION) accepted = a; }catch(e){}
+
+  function setState(){
+    box.disabled = !(reachedEnd || accepted);
+    label.classList.toggle('off', box.disabled);
+    go.disabled = !box.checked;
+    hint.classList.toggle('ok', !box.disabled);
+    if(accepted && box.checked) hint.textContent = 'You accepted these terms on ' + new Date(accepted.at).toLocaleDateString(undefined,{day:'numeric',month:'long',year:'numeric'}) + '.';
+    else if(box.disabled) hint.textContent = 'Scroll to the end of the terms to enable the box.';
+    else hint.textContent = box.checked ? 'Thank you. You can continue now.' : 'You have reached the end. Tick the box to agree.';
+  }
+  function onScroll(){
+    const max = body.scrollHeight - body.clientHeight;
+    prog.style.width = (max > 0 ? Math.min(100, body.scrollTop / max * 100) : 100) + '%';
+    if(max <= 4 || body.scrollTop >= max - 48){ if(!reachedEnd){ reachedEnd = true; setState(); } }
+  }
+  body.addEventListener('scroll', onScroll, {passive:true});
+  addEventListener('resize', onScroll);
+  box.checked = !!accepted;
+  box.addEventListener('change', () => {
+    if(!box.checked){ accepted = null; del(KEY); }
+    setState();
+  });
+  go.addEventListener('click', () => {
+    if(!box.checked) return;
+    set(KEY, JSON.stringify({ v: VERSION, at: new Date().toISOString() }));
+    location.href = NEXT;
+  });
+  /* contents chips scroll inside the sheet only */
+  document.querySelectorAll('.toc a').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.getElementById(a.getAttribute('href').slice(1));
+    if(t) body.scrollTo({ top: t.offsetTop - body.offsetTop - 8, behavior: 'smooth' });
+  }));
+  $('#print').addEventListener('click', () => print());
+  onScroll(); setState();
+})();
+</script>
+</body>
+</html>
