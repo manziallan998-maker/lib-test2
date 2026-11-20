@@ -20,7 +20,7 @@
       <h2 class="font-bold">Choose your budget (RWF)</h2>
       <div class="rounded-xl border border-slate-800 bg-slate-950 p-4">
         <label for="customAmountInput" class="mb-2 block text-xs text-slate-400">Custom amount</label>
-        <input id="customAmountInput" type="number" min="1000" max="100000" step="500" value="25000" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 font-mono text-lg text-emerald-300">
+        <input id="customAmountInput" type="number" min="1000" max="100000" step="500" value="25000" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 font-mono text-lg text-white">
         <input id="budgetSlider" type="range" min="3000" max="99000" step="1000" value="25000" class="mt-4 w-full accent-blue-500">
       </div>
       <div class="grid grid-cols-3 gap-3 text-center">
@@ -32,9 +32,9 @@
     </section>
 
     <section class="space-y-4 rounded-2xl border border-slate-800 bg-slate-900 p-6">
-      <div class="flex items-center justify-between"><div><h2 class="font-bold">Dynamic Checkout</h2><p class="text-xs text-slate-400">MoMo USSD & receipt submission</p></div><span class="text-xs text-emerald-400">● Ready</span></div>
-      <div class="flex justify-between rounded-xl bg-slate-950 p-3 text-sm"><span>Invoice</span><strong id="invoiceCode" class="font-mono text-amber-300"></strong><span id="checkoutAmountLabel" class="font-mono text-emerald-300"></span></div>
-      <div class="rounded-xl border border-blue-500/30 bg-slate-950 p-4 text-center"><span class="block text-[10px] uppercase tracking-widest text-slate-400">Dial USSD on MoMo phone</span><strong id="ussdDisplay" class="mt-2 block font-mono text-xl" aria-live="polite"></strong></div>
+      <div class="flex items-center justify-between"><div><h2 class="font-bold">Dynamic Checkout</h2><p class="text-xs text-slate-400">MoMo USSD & receipt submission</p></div><span class="text-xs text-emerald-400">Secure submission</span></div>
+      <div class="flex justify-between rounded-xl bg-slate-950 p-3 text-sm"><span>Invoice</span><strong id="invoiceCode" class="font-mono text-amber-300"></strong><span id="checkoutAmountLabel" class="font-mono font-bold text-emerald-300"></span></div>
+      <div class="rounded-xl border border-blue-500/30 bg-slate-950 p-4 text-center"><span class="block text-[10px] uppercase tracking-widest text-slate-400">Dial USSD on MoMo phone</span><strong id="ussdDisplay" class="mt-1 block font-mono text-xl text-white"></strong></div>
       <div class="flex items-center justify-center gap-4 rounded-xl bg-slate-950 p-3"><div class="rounded bg-white p-2"><div id="qrcode"></div></div><span class="text-sm">Scan to pay via MoMo</span></div>
       <div><label for="txIdInput" class="mb-1 block text-xs text-slate-300">Mobile Money Transaction ID</label><input id="txIdInput" maxlength="80" autocomplete="off" class="w-full rounded-lg border border-slate-800 bg-slate-950 px-3 py-2 font-mono" placeholder="e.g. 30256999729"></div>
       <div><label for="screenshotFile" class="mb-1 block text-xs text-slate-300">Payment screenshot</label><input id="screenshotFile" type="file" accept="image/jpeg,image/png,image/webp" class="block w-full text-sm text-slate-300"><p id="fileNameDisplay" class="mt-1 text-xs text-slate-500">JPEG, PNG or WebP; up to 5 MB</p></div>
@@ -42,11 +42,13 @@
       <p id="submitStatus" class="min-h-5 text-center text-sm" role="status" aria-live="polite"></p>
     </section>
   </main>
-  <footer class="border-t border-slate-900 py-5 text-center text-xs text-slate-500">© 2026 Billan Company · <a class="text-blue-300 underline" href="payment-monitor.html">Admin payment review</a></footer>
+  <footer class="border-t border-slate-900 py-5 text-center text-xs text-slate-500">© 2026 Billan Company · <a class="text-blue-300 underline" href="billan-monitor.html">Admin payment review</a></footer>
 
   <script>
     (() => {
-      const client = window.supabase?.createClient("https://jbqbelfsdrsjzqcbyzgj.supabase.co", "sb_publishable_7cVIOgKw1dvD1kShDSZ0qw_88KQkobO");
+      // Same Supabase project and public anon key as billan-monitor.html.
+      // Keep database and Storage access constrained with Supabase RLS policies.
+      const client = window.supabase?.createClient("https://nzauptxxvccnpvezzdyu.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56YXVwdHh4dmNjbnB2ZXp6ZHl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3Mjg1ODcsImV4cCI6MjA5ODMwNDU4N30.M7XLTeOIH8o7XV_J1Yrr5V6uQ4WjaT3mf8by5HsPT_g");
       const bucket = "payment-receipts";
       const $ = id => document.getElementById(id);
       let invoice = newInvoice();
@@ -72,7 +74,7 @@
         $("allocatedMembers").textContent = members.toLocaleString();
         $("checkoutAmountLabel").textContent = `${amount.toLocaleString()} RWF`;
         $("invoiceCode").textContent = invoice;
-        $("tierDescription").textContent = amount < 10000 ? `Micro budget: ${days} days of basic access.` : amount < 40000 ? `Standard budget: ${days} days, ${books.toLocaleString()} books, and overdue tracking.` : `Institutional budget: ${days} days, ${books.toLocaleString()} books, and priority support.`;
+        $("tierDescription").textContent = amount < 10000 ? `Micro budget: ${days} days of basic access.` : amount < 40000 ? `Standard budget: ${days} days, ${books.toLocaleString()} books, and ${members.toLocaleString()} members.` : `Premium budget: ${days} days, ${books.toLocaleString()} books, and ${members.toLocaleString()} members.`;
         $("ussdDisplay").textContent = `*182*8*1*0795459250*${amount}#`;
         const qr = $("qrcode"); qr.replaceChildren();
         if (window.QRCode) new QRCode(qr, { text: `MOMOPAY:0795459250|AMT:${amount}|REF:${invoice}`, width: 84, height: 84 });
